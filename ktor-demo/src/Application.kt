@@ -1,57 +1,36 @@
 package com.example
 
+import com.example.controller.post
+import com.example.repository.PostRepository
 import io.ktor.application.Application
-import io.ktor.application.call
 import io.ktor.application.install
+import io.ktor.features.CORS
 import io.ktor.features.ContentNegotiation
+import io.ktor.features.DefaultHeaders
 import io.ktor.gson.gson
-import io.ktor.response.respond
-import io.ktor.routing.get
-import io.ktor.routing.routing
-import org.jetbrains.exposed.sql.*
-import org.jetbrains.exposed.sql.transactions.TransactionManager
-import org.jetbrains.exposed.sql.transactions.transaction
+import io.ktor.routing.Routing
+import org.jetbrains.exposed.sql.Database
+import java.text.DateFormat
+import java.time.Duration
 
 fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
 fun Application.module() {
+    install(DefaultHeaders)
+    install(CORS) {
+        maxAge = Duration.ofDays(1)
+    }
+    install(ContentNegotiation) {
+        gson {
+            setDateFormat(DateFormat.LONG)
+            setPrettyPrinting()
+        }
+    }
     Database.connect("jdbc:h2:mem:test", driver = "org.h2.Driver")
-    routing {
-        install(ContentNegotiation) {
-            gson()
-        }
-        get("/") {
-            call.respond("Hello World!")
-        }
-        get("/users") {
-            call.respond("Users")
-        }
+
+    val postRepository = PostRepository()
+
+    install(Routing) {
+        post(postRepository)
     }
-
-    transaction {
-        SchemaUtils.create(Users)
-
-        Users.insert {
-            it[familyName] = "山田"
-            it[givenName] = "太郎"
-        }
-
-        Users.insert {
-            it[familyName] = "山本"
-            it[givenName] = "二郎"
-        }
-
-        Users.insert {
-            it[familyName] = "田中"
-            it[givenName] = "三郎"
-        }
-
-        println("Users inserted")
-    }
-}
-
-object Users : Table() {
-    val id = integer("id").autoIncrement().primaryKey()
-    val familyName = varchar("family_name", length = 50)
-    val givenName = varchar("given_name", length = 50)
 }
