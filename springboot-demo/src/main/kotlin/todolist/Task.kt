@@ -1,10 +1,10 @@
 package todolist
 
-import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.Table
 
-@Entity(name = "tasks")
+@Table(name = "tasks")
 data class Task(
         @Id
         @GeneratedValue
