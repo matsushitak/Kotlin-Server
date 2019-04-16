@@ -31,15 +31,3 @@ spring:
 
 server:
   port: 3030
-
-logging.file: demo.log
-logging:
-  file:
-    max-history: 10
-    max-size: 50MB
-  level:
-    root: info
-    org.springframework: info
-    org.hibernate: info
-    org.hibernate.SQL: debug
-    com.example.demo: debug
