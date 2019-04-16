@@ -7,7 +7,7 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://localhost:3306/demo_db?useSSL=false
+    url: jdbc:mysql://localhost:3306/demo_db
     username: demo_user
     password: demo_pass
     hikari:
@@ -24,6 +24,8 @@ spring:
         use_sql_comments: true
         generate_statistics: true
         dialect: org.hibernate.dialect.Oracle10gDialect
+    hibernate:
+      ddl-auto: create
   jackson:
     serialization:
       write-dates-as-timestamps: false
