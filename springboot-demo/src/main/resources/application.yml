@@ -23,9 +23,7 @@ spring:
         format_sql: true
         use_sql_comments: true
         generate_statistics: true
-        dialect: org.hibernate.dialect.Oracle10gDialect
-    hibernate:
-      ddl-auto: create
+        dialect: org.hibernate.dialect.Oracle10gDialecte
   jackson:
     serialization:
       write-dates-as-timestamps: false
