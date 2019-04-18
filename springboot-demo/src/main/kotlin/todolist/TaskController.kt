@@ -10,7 +10,9 @@ class TaskController(@Autowired private val service: TaskService) {
 
     @GetMapping("")
     fun getTasks(): List<Task> {
-        return service.findAll()
+        var tasks = service.findAll()
+        println(tasks)
+        return tasks
     }
 
     @GetMapping("{id}")
