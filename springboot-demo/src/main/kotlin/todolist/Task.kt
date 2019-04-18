@@ -10,7 +10,7 @@ import javax.persistence.Table
 data class Task(
         @Id
         @GeneratedValue
-        val id: Long,
-        val content: String,
-        val done: Boolean
+        val id: Int = 1,
+        val content: String = "",
+        val done: Int = 0
 )
