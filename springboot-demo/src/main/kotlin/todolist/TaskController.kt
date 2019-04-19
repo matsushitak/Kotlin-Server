@@ -21,8 +21,13 @@ class TaskController(@Autowired private val service: TaskService) {
     @PostMapping("")
     @ResponseStatus(HttpStatus.CREATED)
     fun createTask(@RequestBody task: Task): Task {
-        println(task)
         return service.create(task)
+    }
+
+    @PutMapping("{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    fun deleteTask(@PathVariable("id") id: Int, @RequestBody task: Task): Task {
+        return service.update(id, task)
     }
 
     @DeleteMapping("{id}")

@@ -18,6 +18,13 @@ class TaskService(@Autowired private val repository: TaskRepository) {
         return repository.save(task)
     }
 
+    fun update(id: Int, task: Task): Task {
+        val updateTask = findById(id)
+        updateTask.content = task.content
+        updateTask.done = task.done
+        return repository.save(updateTask)
+    }
+
     fun deleteById(id: Int) {
         repository.deleteById(id)
     }
