@@ -1,16 +1,13 @@
 package todolist
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.Id
-import javax.persistence.Table
+import javax.persistence.*
 
 @Entity
 @Table(name = "tasks")
 data class Task(
         @Id
-        @GeneratedValue
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Int = 1,
         val content: String = "",
-        val done: Int = 0
+        val done: Boolean = false
 )
