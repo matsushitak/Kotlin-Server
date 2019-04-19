@@ -1,7 +1,7 @@
 package todolist
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.validation.annotation.Validated
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -10,23 +10,23 @@ class TaskController(@Autowired private val service: TaskService) {
 
     @GetMapping("")
     fun getTasks(): List<Task> {
-        var tasks = service.findAll()
-        println(tasks)
-        return tasks
+        return service.findAll()
     }
 
     @GetMapping("{id}")
-    fun getTask(@PathVariable("id") id: Long): Task {
+    fun getTask(@PathVariable("id") id: Int): Task {
         return service.findById(id)
     }
 
     @PostMapping("")
-    fun createTask(@Validated @RequestBody task: Task) {
-        service.create(task)
+    @ResponseStatus(HttpStatus.CREATED)
+    fun createTask(@RequestBody task: Task): Task {
+        println(task)
+        return service.create(task)
     }
 
     @DeleteMapping("{id}")
-    fun deleteTask(@PathVariable("id") id: Long) {
+    fun deleteTask(@PathVariable("id") id: Int) {
         service.deleteById(id)
     }
 }

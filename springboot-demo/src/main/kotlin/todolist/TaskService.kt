@@ -10,15 +10,15 @@ class TaskService(@Autowired private val repository: TaskRepository) {
         return repository.findAll()
     }
 
-    fun findById(id: Long): Task {
+    fun findById(id: Int): Task {
         return repository.findById(id).get()
     }
 
-    fun create(task: Task) {
-        repository.save(task)
+    fun create(task: Task): Task {
+        return repository.save(task)
     }
 
-    fun deleteById(id: Long) {
+    fun deleteById(id: Int) {
         repository.deleteById(id)
     }
 }
