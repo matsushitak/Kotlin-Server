@@ -8,17 +8,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException
+import org.springframework.web.servlet.NoHandlerFoundException
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler
 
 @RestControllerAdvice
 class ExceptionHandler : ResponseEntityExceptionHandler() {
 
     @Throws(Exception::class)
-    @ExceptionHandler(
-            NoSuchElementException::class,
-            EmptyResultDataAccessException::class,
-            MethodArgumentTypeMismatchException::class
-    )
+    @ExceptionHandler(Exception::class)
     fun handleOtherException(ex: Exception, request: WebRequest): ResponseEntity<Any> {
         val headers = HttpHeaders()
         return when (ex) {
@@ -37,6 +34,12 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
             // throw if api parameters type mismatch
             is MethodArgumentTypeMismatchException -> {
                 val status = HttpStatus.BAD_REQUEST
+                val response = ErrorResponse(status.value(), ex.localizedMessage)
+                super.handleExceptionInternal(ex, response, headers, status, request)
+            }
+            // throw if 404
+            is NoHandlerFoundException -> {
+                val status = HttpStatus.NOT_FOUND
                 val response = ErrorResponse(status.value(), ex.localizedMessage)
                 super.handleExceptionInternal(ex, response, headers, status, request)
             }
