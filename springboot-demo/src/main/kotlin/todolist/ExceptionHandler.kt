@@ -43,7 +43,12 @@ class ExceptionHandler : ResponseEntityExceptionHandler() {
                 val response = ErrorResponse(status.value(), ex.localizedMessage)
                 super.handleExceptionInternal(ex, response, headers, status, request)
             }
-            else -> throw ex
+            // throw other
+            else -> {
+                val status = HttpStatus.INTERNAL_SERVER_ERROR
+                val response = ErrorResponse(status.value(), ex.localizedMessage)
+                super.handleExceptionInternal(ex, response, headers, status, request)
+            }
         }
     }
 
