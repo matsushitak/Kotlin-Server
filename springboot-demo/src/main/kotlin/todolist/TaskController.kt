@@ -1,7 +1,6 @@
 package todolist
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 
 @RestController
@@ -19,13 +18,11 @@ class TaskController(@Autowired private val service: TaskService) {
     }
 
     @PostMapping("")
-    @ResponseStatus(HttpStatus.CREATED)
     fun createTask(@RequestBody task: Task): Task {
         return service.create(task)
     }
 
     @PutMapping("{id}")
-    @ResponseStatus(HttpStatus.CREATED)
     fun deleteTask(@PathVariable("id") id: Int, @RequestBody task: Task): Task {
         return service.update(id, task)
     }
